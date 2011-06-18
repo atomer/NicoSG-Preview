@@ -24,24 +24,50 @@
         while(p && p.tagName !== "TABLE") {
             p = p.parentNode;
         }
-        return p.parentNode;
+        return p ? p.parentNode : p;
     }
     function preview(el) {
         var id = el.src.replace(/^http\:\/\/lohas\.nicoseiga\.jp\/thumb\/(\d+)q.*$/, "$1");
+        var loader;
         view = document.getElementById("nicosg_viewer");
         if (!view) {
             view = document.createElement("div");
             view.id = "nicosg_viewer";
             view.style.position = "absolute";
             document.body.appendChild(view);
-            //base.parentNode.insertBefore(view, base);
             view.innerHTML = '<img src="" width="200" style="box-shadow:2px 2px 1px 0px #777;" />';
+            
+            loader = document.createElement("div");
+            loader.className = "nicosg_loader";
+            loader.setAttribute("style", "position:absolute;top:0;left:0;width:16px;height:16px;background: url(http://www.atomer.sakura.ne.jp/js/greasemonkey/nicosgpreview/loader.gif) no-repeat center center #FFF;");
+            view.appendChild(loader);
         }
         var offset = getOffset(el);
         view.style.top = offset.top + "px";
-        view.style.left = (offset.left - 200) + "px";
+        view.style.left = offset.left + "px";
         view.style.display = "block";
+        
+        loader = view.querySelector(".nicosg_loader");
+        loader.style.display = "block";
+        
         var img = view.querySelector("img");
+        var f = function(self) {
+            var base = self.parentNode;
+            var loader = base.querySelector(".nicosg_loader");
+            setTimeout(function() {
+                base.style.width = "";
+                base.style.height = "";
+                base.style.overflow = "";
+                base.style.left = self.getAttribute("data-left") + "px";
+                loader.style.display = "none";
+            }, 100);
+        };
+        img.setAttribute("data-left", offset.left - 200);
+        img.setAttribute("onload", '(' + f.toString() + ')(this);');
+        view.style.width = "16px";
+        view.style.height = "16px";
+        view.style.overflow = "hidden";
+        
         img.src = "http://lohas.nicoseiga.jp/thumb/" + id + "i";
     }
     function getImage(e) {
