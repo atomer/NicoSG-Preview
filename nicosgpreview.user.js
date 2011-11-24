@@ -43,7 +43,7 @@
 		return p ? p.parentNode : p;
 	}
 	function preview(el) {
-		var id = el.src.replace(/^http\:\/\/lohas\.nicoseiga\.jp\/thumb\/(\d+)(q|i).*$/, "$1");
+		var id = el.src.replace(/^http\:\/\/lohas\.nicoseiga\.jp\/thumb\/(\d+)(q|i|z).*$/, "$1");
 		var loader;
 		view = document.getElementById("nicosg_viewer");
 		if (!view) {
