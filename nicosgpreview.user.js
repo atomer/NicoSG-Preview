@@ -3,8 +3,8 @@
 // @namespace   http://www.atomer.sakura.ne.jp
 // @description ニコニコ静画ランキング出張所のサムネイルをプレビューする
 // @include	 http://www.nicovideo.jp/ranking/*
-// @include	 http://www.nicovideo.jp/my/watchlist*
-// @version	 0.2.1
+// @include	 http://www.nicovideo.jp/my/*
+// @version	 0.3
 // ==/UserScript==
 (function() {
 	var config = {
@@ -17,7 +17,7 @@
 				list: ".seiga_item"
 			}
 		},
-		page = location.pathname.indexOf("watchlist") !== -1 ? "watchlist" : "ranking",
+		page = location.pathname.indexOf("/my/top/user") !== -1 ? "watchlist" : "ranking",
 		view, base;
 	
 	config = config[page];
@@ -88,7 +88,9 @@
 	}
 	function getImage(e) {
 		var el;
-		if (e.target.tagName === "IMG" && e.target.className === "seiga_item") {
+		if (e.target.tagName === "IMG" && 
+				(e.target.className === "seiga_item" ||
+					/^http:\/\/lohas\.nicoseiga\.jp/.test(e.target.src))) {
 			el = e.target;
 		}
 		return el;
