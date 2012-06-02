@@ -5,7 +5,7 @@
 // @description ニコニコ静画ランキング出張所のサムネイルをプレビューする
 // @include	 http://www.nicovideo.jp/ranking/*
 // @include	 http://www.nicovideo.jp/my/*
-// @version	 0.3.1
+// @version	 0.3.2
 // ==/UserScript==
 ###
 (->
