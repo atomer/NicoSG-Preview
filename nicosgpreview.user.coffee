@@ -18,7 +18,7 @@
 			list: ".seiga_item"
 	
 	view = null
-	page = if location.pathname.indexOf("/my/top/user") isnt -1 then "watchlist" else "ranking"
+	page = if location.pathname.indexOf("/my/top/user") isnt -1 or location.pathname.indexOf("/my/watchlist") isnt -1 then "watchlist" else "ranking"
 	
 	config = config[page]
 	

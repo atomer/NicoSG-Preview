@@ -23,7 +23,7 @@
     }
   };
   view = null;
-  page = location.pathname.indexOf("/my/top/user") !== -1 ? "watchlist" : "ranking";
+  page = location.pathname.indexOf("/my/top/user") !== -1 || location.pathname.indexOf("/my/watchlist") !== -1 ? "watchlist" : "ranking";
   config = config[page];
   getOffset = function(el) {
     var left, top;
