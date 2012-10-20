@@ -2,11 +2,11 @@
 /*
 // ==UserScript==
 // @name		NicoSG Preview
-// @namespace   http://www.atomer.sakura.ne.jp
-// @description ニコニコ静画ランキング出張所のサムネイルをプレビューする
-// @include	 http://www.nicovideo.jp/ranking/*
-// @include	 http://www.nicovideo.jp/my/*
-// @version	 0.3.2
+// @namespace	http://www.atomer.sakura.ne.jp
+// @description	ニコニコ静画ランキング出張所のサムネイルをプレビューする
+// @include		http://www.nicovideo.jp/ranking/*
+// @include		http://www.nicovideo.jp/my/*
+// @version		0.3.3
 // ==/UserScript==
 */
 
@@ -109,11 +109,19 @@
   base.addEventListener("mouseover", function(e) {
     var el;
     el = getImage(e);
-    el && preview(el);
+    if (el) {
+      preview(el);
+    }
   }, false);
   return base.addEventListener("mouseout", function(e) {
-    var el;
+    var el, img;
     el = getImage(e);
-    el && view && (view.style.display = "none");
+    if (el && view) {
+      view.style.display = "none";
+      img = view.querySelector("img");
+      if (img) {
+        img.src = "";
+      }
+    }
   }, false);
 })();

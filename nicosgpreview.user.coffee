@@ -1,11 +1,11 @@
 ###
 // ==UserScript==
 // @name		NicoSG Preview
-// @namespace   http://www.atomer.sakura.ne.jp
-// @description ニコニコ静画ランキング出張所のサムネイルをプレビューする
-// @include	 http://www.nicovideo.jp/ranking/*
-// @include	 http://www.nicovideo.jp/my/*
-// @version	 0.3.2
+// @namespace	http://www.atomer.sakura.ne.jp
+// @description	ニコニコ静画ランキング出張所のサムネイルをプレビューする
+// @include		http://www.nicovideo.jp/ranking/*
+// @include		http://www.nicovideo.jp/my/*
+// @version		0.3.3
 // ==/UserScript==
 ###
 (->
@@ -19,10 +19,9 @@
 	
 	view = null
 	page = if location.pathname.indexOf("/my/top") isnt -1 or location.pathname.indexOf("/my/watchlist") isnt -1 then "watchlist" else "ranking"
-	
 	config = config[page]
 	
-	getOffset = (el) ->
+	getOffset = (el)->
 		top = 0
 		left = 0
 		
@@ -37,13 +36,12 @@
 			left: left
 		}
 	
-	getBase = () ->
+	getBase = ()->
 		p = document.querySelector config.list
 		p = p.parentNode while p and p.tagName isnt config.base
-		
 		return if p then p.parentNode else p
 	
-	preview = (el) ->
+	preview = (el)->
 		id = el.src.replace /^http\:\/\/lohas\.nicoseiga\.jp\/thumb\/(\d+)(q|i|z).*$/, "$1"
 		view = document.getElementById "nicosg_viewer"
 		if not view
@@ -61,17 +59,17 @@
 		
 		offset = getOffset el
 		view.style.top = offset.top + "px"
-		view.style.left = offset.left + "px";
+		view.style.left = offset.left + "px"
 		view.style.display = "block"
 		
 		loader = view.querySelector ".nicosg_loader"
 		loader.style.display = "block"
 		
 		img = view.querySelector "img"
-		f = (self) ->
+		f = (self)->
 			base = self.parentNode
 			loader = base.querySelector ".nicosg_loader"
-			setTimeout(() ->
+			setTimeout(->
 				base.style.width = ""
 				base.style.height = ""
 				base.style.overflow = ""
@@ -89,7 +87,7 @@
 		img.src = "http://lohas.nicoseiga.jp/thumb/" + id + "i"
 		return
 	
-	getImage = (e) ->
+	getImage = (e)->
 		if e.target.tagName is "IMG" and (e.target.className is "seiga_item" or /^http:\/\/lohas\.nicoseiga\.jp/.test(e.target.src))
 			el = e.target
 		return el
@@ -98,15 +96,18 @@
 	if not base
 		return
 	
-	base.addEventListener "mouseover", (e) ->
+	base.addEventListener "mouseover", (e)->
 		el = getImage e
-		el and preview el
+		if el then preview el
 		return
 	, false
 	
-	base.addEventListener "mouseout", (e) ->
+	base.addEventListener "mouseout", (e)->
 		el = getImage e
-		el and view and (view.style.display = "none")
+		if el and view
+			view.style.display = "none"
+			img = view.querySelector "img"
+			if img then img.src = ""
 		return
 	, false
 )()
