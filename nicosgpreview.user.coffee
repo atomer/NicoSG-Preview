@@ -14,8 +14,8 @@
 			base: "BODY"
 			list: "BODY"
 		ranking:
-			base: "TABLE"
-			list: ".seiga_item"
+			base: null
+			list: ".seiga"
 	
 	view = null
 	page = if location.pathname.indexOf("/my/top") isnt -1 or location.pathname.indexOf("/my/watchlist") isnt -1 then "watchlist" else "ranking"
@@ -38,7 +38,7 @@
 	
 	getBase = ()->
 		p = document.querySelector config.list
-		p = p.parentNode while p and p.tagName isnt config.base
+		p = p.parentNode while p and p.tagName isnt config.base if p.base
 		return if p then p.parentNode else p
 	
 	preview = (el)->
@@ -88,7 +88,7 @@
 		return
 	
 	getImage = (e)->
-		if e.target.tagName is "IMG" and (e.target.className is "seiga_item" or /^http:\/\/lohas\.nicoseiga\.jp/.test(e.target.src))
+		if e.target.tagName is "IMG" and /^http:\/\/lohas\.nicoseiga\.jp/.test(e.target.src)
 			el = e.target
 		return el
 	
