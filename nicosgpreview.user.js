@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name        NicoSG Preview
-// @namespace   http://www.atomer.sakura.ne.jp
+// @namespace   https://github.com/atomer/NicoSG-Preview
 // @description ニコニコ静画ランキング出張所のサムネイルをプレビューする
 // @include     http://www.nicovideo.jp/ranking/*
 // @include     http://www.nicovideo.jp/my/*
-// @version     0.4.0
+// @version     0.4.1
 // ==/UserScript==
 let config = {
     watchlist: {
@@ -57,7 +57,8 @@ let getBase = () => {
 
 let preview = el => {
     let loader;
-    let id = el.src.replace(/^http\:\/\/lohas\.nicoseiga\.jp\/thumb\/(\d+)(q|i|z).*$/, "$1");
+    const isSSL = /^https/.test(el.src);
+    let id = el.src.replace(/^https?\:\/\/lohas\.nicoseiga\.jp\/thumb\/(\d+)(q|i|z).*$/, "$1");
     view = document.getElementById("nicosg_viewer");
     if (!view) {
         view = document.createElement("div");
@@ -106,12 +107,12 @@ let preview = el => {
     view.style.height = "16px";
     view.style.overflow = "hidden";
 
-    img.src = `http://lohas.nicoseiga.jp/thumb/${id}i`;
+    img.src = `http${(isSSL ? 's' : '')}://lohas.nicoseiga.jp/thumb/${id}i`;
 };
 
 let getImage = e => {
     let el;
-    if (e.target.tagName === "IMG" && /^http:\/\/lohas\.nicoseiga\.jp/.test(e.target.src)) {
+    if (e.target.tagName === "IMG" && /^https?:\/\/lohas\.nicoseiga\.jp/.test(e.target.src)) {
         el = e.target;
     }
     return el;
