@@ -57,6 +57,7 @@ let getBase = () => {
 
 let preview = el => {
     let loader;
+    const isSSL = /^https/.test(el.src);
     let id = el.src.replace(/^https?\:\/\/lohas\.nicoseiga\.jp\/thumb\/(\d+)(q|i|z).*$/, "$1");
     view = document.getElementById("nicosg_viewer");
     if (!view) {
@@ -106,7 +107,7 @@ let preview = el => {
     view.style.height = "16px";
     view.style.overflow = "hidden";
 
-    img.src = `https://lohas.nicoseiga.jp/thumb/${id}i`;
+    img.src = `http${(isSSL ? 's' : '')}://lohas.nicoseiga.jp/thumb/${id}i`;
 };
 
 let getImage = e => {
