@@ -2,8 +2,8 @@
 // @name        NicoSG Preview
 // @namespace   https://github.com/atomer/NicoSG-Preview
 // @description ニコニコ静画ランキング出張所のサムネイルをプレビューする
-// @include     http://www.nicovideo.jp/ranking/*
-// @include     http://www.nicovideo.jp/my/*
+// @include     https://www.nicovideo.jp/ranking/*
+// @include     https://www.nicovideo.jp/my/*
 // @version     0.4.1
 // ==/UserScript==
 let config = {
@@ -14,8 +14,8 @@ let config = {
     ranking: {
         base: null,
         list: () => {
-            let list = document.querySelectorAll(".seiga");
-            return list[1];
+            let list = document.querySelectorAll(".BaseRankingContentContainer-main");
+            return list[6];
         }
     }
 };
@@ -114,6 +114,9 @@ let getImage = e => {
     let el;
     if (e.target.tagName === "IMG" && /^https?:\/\/lohas\.nicoseiga\.jp/.test(e.target.src)) {
         el = e.target;
+    } else if (e.target.className === "Thumbnail-image") {
+        el = e.target;
+        el.src = e.target.getAttribute("data-background-image");
     }
     return el;
 };
