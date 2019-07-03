@@ -4,7 +4,7 @@
 // @description ニコニコ静画ランキング出張所のサムネイルをプレビューする
 // @include     https://www.nicovideo.jp/ranking/*
 // @include     https://www.nicovideo.jp/my/*
-// @version     0.4.1
+// @version     0.4.2
 // ==/UserScript==
 let config = {
     watchlist: {
